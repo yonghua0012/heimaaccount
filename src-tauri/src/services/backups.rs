@@ -56,7 +56,9 @@ pub fn validate_backup(path: &Path) -> Result<(), AppError> {
         return Err(AppError::validation("备份数据库完整性检查未通过"));
     }
     let schema: Option<i64> = conn
-        .query_row("SELECT MAX(version) FROM schema_version", [], |row| row.get(0))
+        .query_row("SELECT MAX(version) FROM schema_version", [], |row| {
+            row.get(0)
+        })
         .ok();
     if schema != Some(CURRENT_SCHEMA) {
         return Err(AppError::validation("备份数据库版本不受支持"));
@@ -83,15 +85,13 @@ fn cleanup_backups(data_dir: &Path, keep: usize) -> Result<(), AppError> {
     let mut files: Vec<(std::time::SystemTime, PathBuf)> =
         std::fs::read_dir(data_dir.join("backups"))?
             .filter_map(Result::ok)
-            .filter(|entry| {
-                entry.path().extension().and_then(|value| value.to_str()) == Some("db")
-            })
+            .filter(|entry| entry.path().extension().and_then(|value| value.to_str()) == Some("db"))
             .filter_map(|entry| {
                 let modified = entry.metadata().ok()?.modified().ok()?;
                 Some((modified, entry.path()))
             })
             .collect();
-    files.sort_by(|left, right| right.0.cmp(&left.0));
+    files.sort_by_key(|entry| std::cmp::Reverse(entry.0));
     for (_, path) in files.into_iter().skip(keep) {
         std::fs::remove_file(path)?;
     }

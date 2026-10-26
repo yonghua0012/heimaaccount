@@ -104,11 +104,7 @@ pub fn create_category(
     read_category(conn, &id)
 }
 
-pub fn rename_category(
-    conn: &Connection,
-    id: &str,
-    name: &str,
-) -> Result<Category, AppError> {
+pub fn rename_category(conn: &Connection, id: &str, name: &str) -> Result<Category, AppError> {
     let clean_name = validate_name(name)?;
     let existing = read_category(conn, id)?;
     let duplicate: i64 = conn.query_row(

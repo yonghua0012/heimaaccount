@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 interface ConfirmDialogProps {
   title: string;
   detail: string;
@@ -6,7 +8,6 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   onCancel: () => void;
 }
-
 export function ConfirmDialog({
   title,
   detail,
@@ -15,6 +16,12 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const cancelRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    cancelRef.current?.focus();
+  }, []);
+
   return (
     <div className="modal-backdrop">
       <section
@@ -30,7 +37,12 @@ export function ConfirmDialog({
         <h2>{title}</h2>
         <p>{detail}</p>
         <footer>
-          <button type="button" className="secondary" onClick={onCancel}>
+          <button
+            ref={cancelRef}
+            type="button"
+            className="secondary"
+            onClick={onCancel}
+          >
             取消
           </button>
           <button
@@ -46,3 +58,4 @@ export function ConfirmDialog({
     </div>
   );
 }
+

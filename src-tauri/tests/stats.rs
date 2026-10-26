@@ -25,7 +25,11 @@ fn totals_match_the_two_level_breakdown() {
     add(&mut conn, 9999, "2026-11-01", "food-meals");
 
     let summary = month_summary(&conn, "2026-10").unwrap();
-    let first_level_sum: i64 = summary.categories.iter().map(|item| item.amount_cents).sum();
+    let first_level_sum: i64 = summary
+        .categories
+        .iter()
+        .map(|item| item.amount_cents)
+        .sum();
     let food = summary
         .categories
         .iter()

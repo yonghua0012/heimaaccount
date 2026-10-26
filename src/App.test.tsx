@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
@@ -155,5 +155,40 @@ describe("expense workflows", () => {
     expect(screen.getByRole("button", { name: "从备份恢复" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "导出 CSV" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "打开数据目录" })).toBeInTheDocument();
+  });
+
+  it("focuses the safe action when a delete confirmation opens", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "支出明细" }));
+    await user.click(await screen.findByRole("button", { name: "删除 午餐" }));
+
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "取消" })).toHaveFocus(),
+    );
+  });
+
+  it("closes a confirmation dialog with Escape", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "支出明细" }));
+    await user.click(await screen.findByRole("button", { name: "删除 午餐" }));
+    fireEvent.keyDown(
+      screen.getByRole("dialog", { name: "确认删除这笔支出？" }),
+      { key: "Escape" },
+    );
+
+    expect(
+      screen.queryByRole("dialog", { name: "确认删除这笔支出？" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("exposes the current navigation page to assistive technology", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "分类统计" }));
+    expect(
+      screen.getByRole("button", { name: "分类统计" }),
+    ).toHaveAttribute("aria-current", "page");
   });
 });

@@ -2,7 +2,7 @@
 
 一款面向个人用户、本地优先的人民币支出记账桌面应用，支持 Windows 和 macOS。
 
-> 当前状态：产品设计已确认，技术路线已选定为 Tauri 2；尚未开始编写应用代码。
+> 当前状态：MVP 已实现并通过自动化测试；Windows 发布版可执行文件已生成；macOS 和签名安装包仍需在对应构建环境验收。
 
 ## 1. 文档信息
 
@@ -13,7 +13,7 @@
 | 支持平台 | 64 位 Windows 10/11、macOS 12 及以上 |
 | 数据模式 | 本地优先、完全离线 |
 | 金额单位 | 人民币（CNY） |
-| 当前阶段 | 产品设计确认完成 |
+| 当前阶段 | Windows MVP 发布候选 |
 | 确认日期 | 2026-10-26 |
 
 ## 2. 产品定义
@@ -390,3 +390,46 @@ HeimaLedger/
 | 2026-10-26 | 首发平台 | 64 位 Windows 10/11、macOS 12 及以上 |
 
 后续如果修改上述已确认范围，应先更新本文档，再开始相应实现。
+
+## 17. 本地开发与构建
+
+### 17.1 环境要求
+
+- Node.js 20 或更高版本。
+- Rust stable 工具链，Windows 目标为 `x86_64-pc-windows-msvc`。
+- Windows 需要 Visual Studio C++ Build Tools 和 WebView2 Runtime。
+- macOS 需要 macOS 12 或更高版本、Xcode Command Line Tools 和 Rust 的对应 Apple 目标。
+
+### 17.2 常用命令
+
+```powershell
+npm install
+npm test
+npm run build
+cargo test --manifest-path src-tauri/Cargo.toml
+npm run tauri dev
+npm run tauri build
+```
+
+macOS 安装包必须在 Mac 或 macOS 构建服务中生成。正式对外分发前，还需要配置 Windows 代码签名以及 Apple 签名和公证；当前生成物只能作为未签名开发版本使用。
+
+## 18. 当前验证结果
+
+截至 2026-10-26：
+
+- 前端测试：15 项通过。
+- Rust 测试：24 项通过。
+- 10,000 条记录的筛选与月度统计性能测试通过。
+- 前端生产构建通过。
+- Rust release 构建通过。
+- Windows 发布版进程启动，窗口标题为“黑马记账”，进程响应正常。
+- 生产依赖安全审计：0 个已知漏洞。
+
+当前 Windows 测试环境无法从 GitHub 或 SourceForge 下载 NSIS/WiX 安装器工具，因此已经生成并验证 `heima-ledger.exe`，但尚未生成 Windows 安装程序。macOS 实机构建尚未执行。上述两项必须在交付安装包前完成。
+
+### 18.1 Windows 便携版
+
+- 可执行文件：`artifacts/HeimaLedger-0.1.0-Windows-x64.exe`
+- 压缩包：`artifacts/HeimaLedger-0.1.0-Windows-x64.zip`
+- EXE SHA-256：`CA3A460C3B9EFD7903964CBFC4AC74E0275F491892488232EFBB5E30C4E13D35`
+- ZIP SHA-256：`EBE0EF16AE2683450563EB997D896267F4FA8D4A3C4E41486E1F25C84517A839`

@@ -5,7 +5,9 @@ fn migrates_and_seeds_the_confirmed_category_tree() {
     let conn = open_in_memory().expect("database opens");
 
     let schema_version: i64 = conn
-        .query_row("SELECT MAX(version) FROM schema_version", [], |row| row.get(0))
+        .query_row("SELECT MAX(version) FROM schema_version", [], |row| {
+            row.get(0)
+        })
         .expect("schema version exists");
     let category_count: i64 = conn
         .query_row("SELECT COUNT(*) FROM category", [], |row| row.get(0))

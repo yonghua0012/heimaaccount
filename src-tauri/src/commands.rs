@@ -118,9 +118,7 @@ pub fn get_month_summary(
 }
 
 #[tauri::command]
-pub fn ensure_daily_backup(
-    state: State<'_, AppState>,
-) -> Result<OperationResult, AppError> {
+pub fn ensure_daily_backup(state: State<'_, AppState>) -> Result<OperationResult, AppError> {
     let path = crate::services::backups::ensure_daily_backup(&state)?;
     Ok(OperationResult {
         message: format!("自动备份已保存到 {}", path.display()),
@@ -134,10 +132,7 @@ pub fn create_backup(
     destination: String,
 ) -> Result<OperationResult, AppError> {
     let _guard = state.lock()?;
-    crate::services::backups::create_backup(
-        &state.open()?,
-        std::path::Path::new(&destination),
-    )?;
+    crate::services::backups::create_backup(&state.open()?, std::path::Path::new(&destination))?;
     Ok(OperationResult {
         message: "备份已保存".into(),
         affected_count: None,

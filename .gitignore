@@ -5,6 +5,7 @@ dist/
 coverage/
 src-tauri/target/
 src-tauri/gen/
+artifacts/
 *.log
 .DS_Store
 Thumbs.db
