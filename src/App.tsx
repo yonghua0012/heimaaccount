@@ -44,14 +44,27 @@ export default function App() {
     setDrawerOpen(true);
   }
 
+  function commitMutation(message: string) {
+    setFeedback({ message, tone: "success" });
+    setRevision((value) => value + 1);
+    void api.ensureDailyBackup().catch((cause) => {
+      setFeedback({
+        message: `数据已保存，但自动备份失败：${getErrorMessage(
+          cause,
+          "请立即手动备份",
+        )}`,
+        tone: "warning",
+      });
+    });
+  }
+
   async function confirmDelete() {
     if (!deleting) return;
     setBusy(true);
     try {
       await api.deleteExpense(deleting.id);
       setDeleting(null);
-      setFeedback({ message: "支出记录已删除", tone: "success" });
-      setRevision((value) => value + 1);
+      commitMutation("支出记录已删除");
     } catch (cause) {
       setFeedback({
         message: getErrorMessage(cause, "删除失败"),
@@ -100,12 +113,8 @@ export default function App() {
         onClose={() => setDrawerOpen(false)}
         onSaved={() => {
           setDrawerOpen(false);
-          setFeedback({
-            message: editing ? "支出已更新" : "支出已保存",
-            tone: "success",
-          });
+          commitMutation(editing ? "支出已更新" : "支出已保存");
           setEditing(null);
-          setRevision((value) => value + 1);
         }}
       />
       {deleting && (

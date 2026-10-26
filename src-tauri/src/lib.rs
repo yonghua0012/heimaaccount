@@ -32,6 +32,11 @@ pub fn run() {
             commands::update_expense,
             commands::delete_expense,
             commands::get_month_summary,
+            commands::ensure_daily_backup,
+            commands::create_backup,
+            commands::restore_backup,
+            commands::export_csv,
+            commands::open_data_dir,
         ])
         .run(tauri::generate_context!())
         .expect("failed to run 黑马记账");

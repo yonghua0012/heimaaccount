@@ -13,6 +13,11 @@ export interface AppInfo {
   dataDir: string;
 }
 
+export interface OperationResult {
+  message: string;
+  affectedCount: number | null;
+}
+
 export function getErrorMessage(cause: unknown, fallback: string): string {
   if (
     typeof cause === "object" &&
@@ -48,4 +53,13 @@ export const api = {
   deleteExpense: (id: string) => invoke<void>("delete_expense", { id }),
   getMonthSummary: (month: string) =>
     invoke<MonthSummary>("get_month_summary", { month }),
+  ensureDailyBackup: () =>
+    invoke<OperationResult>("ensure_daily_backup"),
+  createBackup: (destination: string) =>
+    invoke<OperationResult>("create_backup", { destination }),
+  restoreBackup: (source: string) =>
+    invoke<OperationResult>("restore_backup", { source }),
+  exportCsv: (destination: string) =>
+    invoke<OperationResult>("export_csv", { destination }),
+  openDataDir: () => invoke<string>("open_data_dir"),
 };

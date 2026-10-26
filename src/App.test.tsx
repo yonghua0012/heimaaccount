@@ -18,6 +18,8 @@ vi.mock("./lib/api", () => ({
     renameCategory: vi.fn(),
     setCategoryActive: vi.fn(),
     moveCategory: vi.fn(),
+    ensureDailyBackup: vi.fn(),
+    getAppInfo: vi.fn(),
   },
 }));
 
@@ -75,6 +77,15 @@ beforeEach(() => {
       },
     ],
   });
+  vi.mocked(api.ensureDailyBackup).mockResolvedValue({
+    message: "自动备份已保存",
+    affectedCount: null,
+  });
+  vi.mocked(api.getAppInfo).mockResolvedValue({
+    name: "黑马记账",
+    version: "0.1.0",
+    dataDir: "C:\\Test\\HeimaLedger",
+  });
 });
 
 describe("expense workflows", () => {
@@ -98,6 +109,7 @@ describe("expense workflows", () => {
     expect(api.deleteExpense).not.toHaveBeenCalled();
     await user.click(screen.getByRole("button", { name: "确认删除" }));
     await waitFor(() => expect(api.deleteExpense).toHaveBeenCalledWith("e1"));
+    await waitFor(() => expect(api.ensureDailyBackup).toHaveBeenCalled());
   });
 
   it("shows the hierarchical monthly breakdown", async () => {
@@ -131,5 +143,17 @@ describe("expense workflows", () => {
     await waitFor(() =>
       expect(api.createCategory).toHaveBeenCalledWith("food", "工作午餐"),
     );
+  });
+
+  it("shows local data controls and application information", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "设置" }));
+
+    expect(await screen.findByText("黑马记账 0.1.0")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "立即备份" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "从备份恢复" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "导出 CSV" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "打开数据目录" })).toBeInTheDocument();
   });
 });
