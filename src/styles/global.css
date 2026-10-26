@@ -619,3 +619,151 @@ textarea {
     grid-template-columns: repeat(2, minmax(140px, 1fr));
   }
 }
+
+.month-picker {
+  padding: 9px 12px;
+  color: var(--ink);
+  border: 1px solid #6d6251;
+  border-radius: 9px;
+  background: #fffdf7;
+}
+
+.stat-list {
+  display: grid;
+  gap: 18px;
+}
+
+.stat-item {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee8dc;
+}
+
+.stat-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.stat-heading {
+  display: grid;
+  grid-template-columns: 1fr auto 64px;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 4px 0;
+  border: 0;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+}
+
+.stat-heading span:last-child {
+  color: #746c60;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-children {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  list-style: none;
+  border-radius: 9px;
+  background: #f6f2e9;
+}
+
+.stat-children li {
+  display: flex;
+  justify-content: space-between;
+  color: #625b50;
+}
+
+.category-manager {
+  display: grid;
+  gap: 18px;
+}
+
+.category-create {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.category-create label {
+  display: grid;
+  gap: 6px;
+  color: #70685b;
+  font-size: 12px;
+}
+
+.category-create input,
+.category-create select,
+.category-settings input,
+.category-settings select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+}
+
+.category-settings {
+  min-height: 330px;
+}
+
+.category-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 4px;
+  align-items: center;
+}
+
+.category-row .selected {
+  font-weight: 700;
+  background: #f5d99f;
+}
+
+.category-admin-list {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+}
+
+.category-admin-list > li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee8dc;
+}
+
+.category-admin-list > li > span:first-child {
+  min-width: 130px;
+  flex: 1;
+}
+
+.category-admin-list label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #71695d;
+  font-size: 12px;
+}
+
+.category-admin-list button {
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 6px;
+  background: #f1ede4;
+  cursor: pointer;
+}
+
+.category-admin-list .inactive {
+  color: #938b80;
+  text-decoration: line-through;
+}

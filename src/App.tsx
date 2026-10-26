@@ -7,6 +7,8 @@ import { api, getErrorMessage } from "./lib/api";
 import { formatCny } from "./lib/money";
 import { ExpensesPage } from "./pages/ExpensesPage";
 import { OverviewPage } from "./pages/OverviewPage";
+import { SettingsPage } from "./pages/SettingsPage";
+import { StatsPage } from "./pages/StatsPage";
 import type { Category, Expense, PageKey } from "./types/domain";
 
 export default function App() {
@@ -82,18 +84,14 @@ export default function App() {
         />
       )}
       {page === "stats" && (
-        <div className="page-stack">
-          <header className="page-header">
-            <h1>分类统计</h1>
-          </header>
-        </div>
+        <StatsPage revision={revision} />
       )}
       {page === "settings" && (
-        <div className="page-stack">
-          <header className="page-header">
-            <h1>设置</h1>
-          </header>
-        </div>
+        <SettingsPage
+          categories={categories}
+          revision={revision}
+          onCategoriesChanged={() => setRevision((value) => value + 1)}
+        />
       )}
       <ExpenseDrawer
         open={drawerOpen}

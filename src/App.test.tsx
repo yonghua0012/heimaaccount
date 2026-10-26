@@ -14,6 +14,10 @@ vi.mock("./lib/api", () => ({
     createExpense: vi.fn(),
     updateExpense: vi.fn(),
     deleteExpense: vi.fn(),
+    createCategory: vi.fn(),
+    renameCategory: vi.fn(),
+    setCategoryActive: vi.fn(),
+    moveCategory: vi.fn(),
   },
 }));
 
@@ -94,5 +98,38 @@ describe("expense workflows", () => {
     expect(api.deleteExpense).not.toHaveBeenCalled();
     await user.click(screen.getByRole("button", { name: "确认删除" }));
     await waitFor(() => expect(api.deleteExpense).toHaveBeenCalledWith("e1"));
+  });
+
+  it("shows the hierarchical monthly breakdown", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "分类统计" }));
+
+    expect(await screen.findByText("餐饮美食")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "展开 餐饮美食" }));
+    expect(screen.getByText("正餐")).toBeInTheDocument();
+    expect(screen.getAllByText("¥18.50")).toHaveLength(3);
+  });
+
+  it("creates a second-level category from settings", async () => {
+    const user = userEvent.setup();
+    vi.mocked(api.createCategory).mockResolvedValue({
+      id: "food-work",
+      parentId: "food",
+      name: "工作午餐",
+      sortOrder: 80,
+      active: true,
+      builtIn: false,
+    });
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "设置" }));
+    await screen.findByRole("option", { name: "餐饮美食" });
+    await user.selectOptions(screen.getByLabelText("所属大类"), "food");
+    await user.type(screen.getByLabelText("分类名称"), "工作午餐");
+    await user.click(screen.getByRole("button", { name: "新增分类" }));
+
+    await waitFor(() =>
+      expect(api.createCategory).toHaveBeenCalledWith("food", "工作午餐"),
+    );
   });
 });
