@@ -1,0 +1,74 @@
+:root {
+  font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+  color: #1f2328;
+  background: #f7f5ef;
+  font-synthesis: none;
+  --ink: #171a1f;
+  --gold: #d9992a;
+  --paper: #f7f5ef;
+  --surface: #fffefa;
+  --danger: #b93838;
+  --border: #ded8cc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 860px;
+  min-height: 600px;
+  background: var(--paper);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 208px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--ink);
+  color: white;
+  padding: 24px 16px;
+}
+
+.brand {
+  color: var(--gold);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.sidebar nav {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar button {
+  color: #f8f4e8;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar button:hover,
+.sidebar button:focus-visible {
+  background: #2a3038;
+  outline: 2px solid var(--gold);
+}
+
+.content {
+  padding: 32px;
+}
