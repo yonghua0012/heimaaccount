@@ -436,3 +436,12 @@ macOS 安装包必须在 Mac 或 macOS 构建服务中生成。正式对外分�
 - 压缩包：`artifacts/HeimaLedger-0.1.0-Windows-x64.zip`
 - EXE SHA-256：`CA3A460C3B9EFD7903964CBFC4AC74E0275F491892488232EFBB5E30C4E13D35`
 - ZIP SHA-256：`EBE0EF16AE2683450563EB997D896267F4FA8D4A3C4E41486E1F25C84517A839`
+
+### 18.2 GitHub Actions 安装包
+
+推送 `main` 或手动运行 `Desktop installers` 工作流后，GitHub Actions 会生成：
+
+- `HeimaLedger-0.2.0-Windows-x64`：Windows NSIS 安装程序。
+- `HeimaLedger-0.2.0-macOS-universal`：同时支持 Apple Silicon 与 Intel Mac 的 DMG。
+
+安装包可从 GitHub 仓库的 Actions 页面下载。工作流生成的是未签名开发安装包；正式分发仍需配置 Windows 与 Apple 代码签名。
