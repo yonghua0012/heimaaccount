@@ -11,6 +11,7 @@ const items: Array<{ key: PageKey; label: string }> = [
   { key: "overview", label: "总览" },
   { key: "expenses", label: "支出明细" },
   { key: "stats", label: "分类统计" },
+  { key: "game", label: "小游戏" },
   { key: "settings", label: "设置" },
 ];
 

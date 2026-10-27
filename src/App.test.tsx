@@ -191,4 +191,14 @@ describe("expense workflows", () => {
       screen.getByRole("button", { name: "分类统计" }),
     ).toHaveAttribute("aria-current", "page");
   });
+
+  it("opens the snake game from the sidebar", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "小游戏" }));
+
+    expect(
+      screen.getByRole("heading", { name: "贪吃蛇" }),
+    ).toBeInTheDocument();
+  });
 });

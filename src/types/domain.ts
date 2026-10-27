@@ -1,4 +1,4 @@
-export type PageKey = "overview" | "expenses" | "stats" | "settings";
+export type PageKey = "overview" | "expenses" | "stats" | "game" | "settings";
 
 export interface Category {
   id: string;

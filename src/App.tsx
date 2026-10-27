@@ -3,6 +3,7 @@ import { AppShell } from "./components/AppShell";
 import { ConfirmDialog } from "./components/ConfirmDialog";
 import { ExpenseDrawer } from "./components/ExpenseDrawer";
 import { FeedbackBanner } from "./components/FeedbackBanner";
+import { SnakePage } from "./features/snake/SnakePage";
 import { api, getErrorMessage } from "./lib/api";
 import { formatCny } from "./lib/money";
 import { ExpensesPage } from "./pages/ExpensesPage";
@@ -99,6 +100,7 @@ export default function App() {
       {page === "stats" && (
         <StatsPage revision={revision} />
       )}
+      {page === "game" && <SnakePage />}
       {page === "settings" && (
         <SettingsPage
           categories={categories}
