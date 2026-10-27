@@ -445,3 +445,12 @@ macOS 安装包必须在 Mac 或 macOS 构建服务中生成。正式对外分�
 - `HeimaLedger-0.2.0-macOS-universal`：同时支持 Apple Silicon 与 Intel Mac 的 DMG。
 
 安装包可从 GitHub 仓库的 Actions 页面下载。工作流生成的是未签名开发安装包；正式分发仍需配置 Windows 与 Apple 代码签名。
+
+### 18.3 0.2.0 安装包产物
+
+- Windows 安装程序：`artifacts/HeimaLedger-0.2.0-Windows-x64/黑马记账_0.2.0_x64-setup.exe`
+- Windows SHA-256：`98CD350AA86E8EF52D3364D253CB90E495B08FF26128A16218D5C4976EE0F7E0`
+- macOS 通用 DMG：`artifacts/HeimaLedger-0.2.0-macOS-universal/黑马记账_0.2.0_universal.dmg`
+- macOS SHA-256：`BFF6389FA70A9B4EB15639381F99F5CDAAE5D0D86E6D43C1A4520AF0A5FA2D91`
+
+这两个安装包由 GitHub Actions 构建并通过工作流上传，尚未进行 Windows 与 Apple 代码签名。
