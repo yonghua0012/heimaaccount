@@ -442,6 +442,7 @@ macOS 安装包必须在 Mac 或 macOS 构建服务中生成。正式对外分�
 推送 `main` 或手动运行 `Desktop installers` 工作流后，GitHub Actions 会生成：
 
 - `HeimaLedger-0.2.0-Windows-x64`：Windows NSIS 安装程序。
+- `HeimaLedger-0.2.0-Windows-x64-portable`：无需安装的 Windows 便携版可执行文件。
 - `HeimaLedger-0.2.0-macOS-universal`：同时支持 Apple Silicon 与 Intel Mac 的 DMG。
 
 安装包可从 GitHub 仓库的 Actions 页面下载。工作流生成的是未签名开发安装包；正式分发仍需配置 Windows 与 Apple 代码签名。
