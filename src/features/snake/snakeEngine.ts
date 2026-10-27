@@ -95,14 +95,10 @@ export function advance(
   }[state.pendingDirection];
   const head = state.snake[0];
   const nextHead = { x: head.x + delta.x, y: head.y + delta.y };
-  if (
-    nextHead.x < 0 ||
-    nextHead.x >= state.width ||
-    nextHead.y < 0 ||
-    nextHead.y >= state.height
-  ) {
-    return { ...state, status: "gameover" };
-  }
+  if (nextHead.x < 0) nextHead.x = state.width - 1;
+  if (nextHead.x >= state.width) nextHead.x = 0;
+  if (nextHead.y < 0) nextHead.y = state.height - 1;
+  if (nextHead.y >= state.height) nextHead.y = 0;
   const eating =
     state.food?.x === nextHead.x && state.food?.y === nextHead.y;
   const occupiedBody = eating ? state.snake : state.snake.slice(0, -1);

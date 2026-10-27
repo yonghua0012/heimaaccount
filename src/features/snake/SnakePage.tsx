@@ -64,15 +64,19 @@ function statusLabel(state: SnakeState): string {
 
 interface SnakePageProps {
   random?: () => number;
+  initialGame?: SnakeState;
 }
 
 function freshRunningGame(random: () => number): SnakeState {
   return startGame(createInitialState(random));
 }
 
-export function SnakePage({ random = Math.random }: SnakePageProps) {
+export function SnakePage({
+  random = Math.random,
+  initialGame,
+}: SnakePageProps) {
   const [game, setGame] = useState<SnakeState>(() =>
-    createInitialState(random),
+    initialGame ?? createInitialState(random),
   );
   const [highScore, setHighScore] = useState(readHighScore);
 
@@ -141,7 +145,7 @@ export function SnakePage({ random = Math.random }: SnakePageProps) {
   const overlay =
     game.status === "ready" ? (
       <div className="snake-overlay">
-        <p>吃掉红色果实，别撞墙或咬到自己。</p>
+        <p>吃掉红色果实。越过边界会从对侧返回，注意别咬到自己。</p>
         <button
           type="button"
           className="primary"
@@ -322,7 +326,7 @@ export function SnakePage({ random = Math.random }: SnakePageProps) {
             </div>
           </dl>
           <p>
-            蛇的速度会随着得分逐渐提升。切换页面或窗口失去焦点时，本局会自动暂停。
+            蛇可以穿过边界并从对侧出现，速度会随着得分逐渐提升。切换页面或窗口失去焦点时，本局会自动暂停。
           </p>
         </aside>
       </div>

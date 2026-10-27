@@ -46,7 +46,7 @@ it("eating food grows the snake and increases the score", () => {
   assert.equal(moved.status, "running");
 });
 
-it("hitting a wall ends the game", () => {
+it("wrapping from the right edge continues at the left edge", () => {
   const running = startGame(createInitialState(() => 0));
   const atRightEdge = {
     ...running,
@@ -57,7 +57,67 @@ it("hitting a wall ends the game", () => {
     ],
   };
 
-  assert.equal(advance(atRightEdge, () => 0).status, "gameover");
+  const moved = advance(atRightEdge, () => 0);
+
+  assert.deepEqual(moved.snake[0], { x: 0, y: 10 });
+  assert.equal(moved.status, "running");
+});
+
+it("wrapping from the left edge continues at the right edge", () => {
+  const running = startGame(createInitialState(() => 0));
+  const atLeftEdge = {
+    ...running,
+    snake: [
+      { x: 0, y: 10 },
+      { x: 1, y: 10 },
+      { x: 2, y: 10 },
+    ],
+    direction: "left" as const,
+    pendingDirection: "left" as const,
+  };
+
+  const moved = advance(atLeftEdge, () => 0);
+
+  assert.deepEqual(moved.snake[0], { x: 19, y: 10 });
+  assert.equal(moved.status, "running");
+});
+
+it("wrapping from the bottom edge continues at the top edge", () => {
+  const running = startGame(createInitialState(() => 0));
+  const atBottomEdge = {
+    ...running,
+    snake: [
+      { x: 10, y: 19 },
+      { x: 10, y: 18 },
+      { x: 10, y: 17 },
+    ],
+    direction: "down" as const,
+    pendingDirection: "down" as const,
+  };
+
+  const moved = advance(atBottomEdge, () => 0);
+
+  assert.deepEqual(moved.snake[0], { x: 10, y: 0 });
+  assert.equal(moved.status, "running");
+});
+
+it("wrapping from the top edge continues at the bottom edge", () => {
+  const running = startGame(createInitialState(() => 0));
+  const atTopEdge = {
+    ...running,
+    snake: [
+      { x: 10, y: 0 },
+      { x: 10, y: 1 },
+      { x: 10, y: 2 },
+    ],
+    direction: "up" as const,
+    pendingDirection: "up" as const,
+  };
+
+  const moved = advance(atTopEdge, () => 0);
+
+  assert.deepEqual(moved.snake[0], { x: 10, y: 19 });
+  assert.equal(moved.status, "running");
 });
 
 it("hitting the snake body ends the game", () => {

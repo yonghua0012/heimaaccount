@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { SnakePage } from "./SnakePage";
+import { createInitialState } from "./snakeEngine";
 
 describe("SnakePage", () => {
   beforeEach(() => {
@@ -48,17 +49,16 @@ describe("SnakePage", () => {
   });
 
   it("persists a new best score after the game ends", async () => {
-    const randomValues = [208 / 397, 208 / 397, 0];
-    const random = () => randomValues.shift() ?? 0;
-    render(<SnakePage random={random} />);
-    fireEvent.click(screen.getByRole("button", { name: "开始游戏" }));
+    const finishedGame = {
+      ...createInitialState(() => 0),
+      score: 90,
+      status: "gameover" as const,
+    };
+    render(<SnakePage initialGame={finishedGame} />);
 
     await waitFor(
-      () => expect(screen.getByText("游戏结束")).toBeInTheDocument(),
-      { timeout: 2_500 },
+      () => expect(localStorage.getItem("snakeHighScore")).toBe("90"),
+      { timeout: 500 },
     );
-
-    expect(screen.getByText("游戏结束")).toBeInTheDocument();
-    expect(localStorage.getItem("snakeHighScore")).toBe("10");
   });
 });
